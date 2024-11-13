@@ -1,6 +1,8 @@
 package middlewares
 
 import (
+	"net/http"
+
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
@@ -10,7 +12,7 @@ func AuthRequired() gin.HandlerFunc {
 		session := sessions.Default(c)
 		userID := session.Get("userID")
 		if userID == nil {
-			c.Redirect(302, "/")
+			c.Redirect(http.StatusFound, "/")
 			c.Abort()
 			return
 		}

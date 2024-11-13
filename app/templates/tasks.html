@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Bienvenido {{.userName}}</h1>
+
+        <form action="/logout" method="post">
+            {{ .csrfField }}
+            <button type="submit">Logout</button>
+        </form>
+
+    </div>
+    <table style="border-collapse: collapse; width: 100%;">
+        <thead>
+            <th style="border: 1px solid black; padding: 8px;">Title</th>
+            <th style="border: 1px solid black; padding: 8px;">Description</th>
+            <th style="border: 1px solid black; padding: 8px;">Actualizar</th>
+        </thead>
+
+        
+        <tbody>
+            {{range .tasks }}
+            <tr>
+                <td style="border: 1px solid black; padding: 8px;">{{ .Title }}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ .Description }}</td>
+                <td style="border: 1px solid black; padding: 8px;">
+                    <button>
+                        <a href="/api/tasks/{{.ID}}/update">Actualizar</a>
+                    </button>
+                </td>
+            </tr>
+            
+        </tbody>
+        {{ end }}
+    </table>
+    
+    
+</body>
+</html>

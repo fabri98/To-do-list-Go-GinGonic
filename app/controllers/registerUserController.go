@@ -2,12 +2,27 @@ package controllers
 
 import (
 	"gin-mvc/config"
+	"gin-mvc/middlewares"
 	"gin-mvc/models"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-gonic/gin"
+	"github.com/gorilla/csrf"
 )
 
-func CreateUser(c *gin.Context) {
+func ShowRegister(c *gin.Context) {
+	session := sessions.Default(c)
+
+	if userID := session.Get("userID"); userID != nil {
+		c.Redirect(http.StatusSeeOther, "/api/tasks")
+		return
+	}
+	c.HTML(http.StatusOK, "register.html", gin.H{
+		"csrfField": csrf.TemplateField(c.Request),
+	})
+}
+func RegisterUser(c *gin.Context) {
 	var user models.User
 
 	// Binding de los datos del formulario
@@ -30,6 +45,9 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
+	session := middlewares.SetSession(c, user.ID, user.Name)
+	session.Save()
+
 	// Redireccionar o responder con éxito
-	c.Redirect(http.StatusSeeOther, "/api/users")
+	c.Redirect(http.StatusSeeOther, "/api/tasks")
 }

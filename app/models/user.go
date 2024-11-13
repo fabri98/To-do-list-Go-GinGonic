@@ -6,11 +6,12 @@ import (
 )
 
 type User struct {
-	gorm.Model
-	ID       uint   `jgorm:"primaryKey;autoIncrement" json:"id"`
+	ID       uint   `gorm:"primaryKey;autoIncrement" json:"id"`
+	Task     []Task `gorm:"foreingKey:UserID"`
 	Name     string `json:"name"`
 	Email    string `json:"email"`
 	Password string `json:"-"`
+	gorm.Model
 }
 
 func (User) TableName() string {
@@ -28,7 +29,7 @@ func (u *User) SetPassword(password string) error {
 }
 
 // CheckPassword compara la contraseña en texto plano con la encriptada
-func (u *User) CheckPassword(password string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
+func (user *User) CheckPassword(password string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	return err == nil
 }

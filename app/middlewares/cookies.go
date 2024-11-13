@@ -9,7 +9,7 @@ func SetCookie() sessions.Store {
 	// Configura el almacenamiento de la sesión
 	store := cookie.NewStore([]byte("secret"))
 	store.Options(sessions.Options{
-		MaxAge: 300, // 5 minutos
+		MaxAge: 600, // 5 minutos
 		Path:   "/",
 	})
 	return store

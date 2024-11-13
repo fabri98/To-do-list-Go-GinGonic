@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"gin-mvc/config"
+	"gin-mvc/middlewares"
 	"gin-mvc/models"
 	"net/http"
 
@@ -13,7 +14,7 @@ import (
 func ShowLogin(c *gin.Context) {
 	session := sessions.Default(c)
 	if session.Get("userID") != nil {
-		c.Redirect(http.StatusSeeOther, "/api/users")
+		c.Redirect(http.StatusSeeOther, "/api/tasks")
 		return
 	}
 	c.HTML(http.StatusOK, "login.html", gin.H{
@@ -35,20 +36,17 @@ func Login(c *gin.Context) {
 		c.HTML(http.StatusBadRequest, "login.html", gin.H{"error": "Email o contraseña incorrecto!"})
 		return
 	}
-
 	// Crear sesión
-	session := sessions.Default(c)
-	session.Set("userID", user.ID)
-	session.Set("userName", user.Name)
-
+	session := middlewares.SetSession(c, user.ID, user.Name)
 	session.Save()
 
-	c.Redirect(http.StatusSeeOther, "/api/users")
+	c.Redirect(http.StatusSeeOther, "/api/tasks")
 }
 
 func Logout(c *gin.Context) {
 	session := sessions.Default(c)
 	session.Clear()
 	session.Save()
+
 	c.Redirect(http.StatusSeeOther, "/")
 }

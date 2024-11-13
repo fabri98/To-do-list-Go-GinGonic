@@ -57,8 +57,8 @@ func UpdateUser(c *gin.Context) {
 	user.Email = c.PostForm("Email")
 
 	// esto es para que se actualice el nombre en la bienvenida, en resumen solo es algo visual
-	if userID == user.ID {
-		session.Set("userName", user.Name)
+	if userID == user.ID { // Convierte `userID` a `string` para la comparación
+		session.Set("userName", c.PostForm("Name"))
 		session.Save()
 	}
 

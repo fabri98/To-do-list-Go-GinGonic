@@ -17,23 +17,7 @@
     {{end}}
 
     <div class="container mt-5">
-        <h1 class="mb-4">Crear Usuario</h1>
-        <form action="/api/users" method="POST" class="mb-5">
-            {{ .csrfField }}
-            <div class="form-group">
-                <label for="name">Nombre:</label>
-                <input type="text" id="name" name="Name" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Correo electrónico:</label>
-                <input type="email" id="email" name="Email" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="Password" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Crear Usuario</button>
-        </form>
+        
 
         <h1 class="mb-4">Lista de Usuarios</h1>
         
@@ -60,7 +44,12 @@
             </li>
             {{end}}
         </ul>
-        
+
+        <br>
+        <br>
+        <button>
+            <a href="/api/tasks">Tasks</a>
+        </button>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

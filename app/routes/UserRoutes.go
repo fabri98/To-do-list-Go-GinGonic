@@ -9,23 +9,29 @@ import (
 
 func UserRouter(router *gin.Engine) {
 	// Rutas públicas
+	// Login routes
 	router.GET("/", controllers.ShowLogin)
 	router.POST("/login", controllers.Login)
-	router.GET("/logout", controllers.Logout)
+	router.POST("/logout", controllers.Logout)
+	// Register routes
+	router.GET("/register", controllers.ShowRegister)
+	router.POST("/register", controllers.RegisterUser)
 
 	// Rutas protegidas
 	routes := router.Group("/api",
 		middlewares.AuthRequired(),
-		middlewares.SessionTimeoutMiddleware(300),
 		middlewares.CsrfToken(),
 	)
 	{
 		routes.GET("/users", controllers.GetUsers)
-		routes.POST("/users", controllers.CreateUser)
 		routes.PUT("/users/:id", controllers.UpdateUser)
 		routes.POST("/users/:id/update", controllers.UpdateUser)
 		routes.DELETE("/users/:id", controllers.DeleteUser)
 		routes.POST("/users/:id/delete", controllers.DeleteUser)
+
+		routes.GET("/tasks", controllers.ListTasks)
+		routes.GET("/tasks/:id/update", controllers.UpdateTaskForm)
+		routes.POST("/tasks/:id/update", controllers.UpdateTask)
 	}
 
 }
