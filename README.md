@@ -1,1 +1,2 @@
-# To-DO List con Go, Gin Gonic y MySQL
+# To-DO List 
+- Aplicación web realizada con Go, Gin Gonic y MySQL
